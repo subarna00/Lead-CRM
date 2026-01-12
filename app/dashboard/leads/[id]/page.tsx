@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, use } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -15,9 +15,10 @@ import { ActivitiesTab } from "@/components/activities-tab"
 import { DealsTab } from "@/components/deals-tab"
 import { ActivityFeed } from "@/components/activity-feed"
 
-export default function LeadDetailPage({ params }: { params: { id: string } }) {
+export default function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
-  const lead = mockLeads.find((l) => l.id === params.id) || mockLeads[0]
+  const { id } = use(params)
+  const lead = mockLeads.find((l) => l.id === id) || mockLeads[0]
   const [activeTab, setActiveTab] = useState("overview")
   const [documents, setDocuments] = useState<
     Array<{ id: string; name: string; size: number; type: string; uploadedAt: Date }>
